@@ -1,0 +1,2 @@
+# Probabilistic-Language-Modeling-Unigram-and-Bigram-Approaches-with-Perplexity-Evaluation
+This project implements and evaluates statistical language models using Unigram and Bigram approaches, including smoothed variants to handle rare or unseen words. The models are trained on a corpus of 30,000 sentences and evaluated on positive (1,000 sentences) and negative (1000 sentences) test sets, with a total vocabulary of 19,467 unique words.
