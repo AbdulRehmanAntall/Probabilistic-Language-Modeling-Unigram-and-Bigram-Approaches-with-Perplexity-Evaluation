@@ -1,4 +1,4 @@
-# Probabilistic-Language-Modeling-Unigram-and-Bigram-Approaches-with-Perplexity-Evaluation
+# Probabilistic Language Models
 
 This project implements **Unigram and Bigram Language Models**, along with their smoothed versions (Laplace smoothing for unigram, linear interpolation for bigram), to analyze and generate sentences, and evaluate perplexity on test corpora.
 
