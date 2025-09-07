@@ -25,32 +25,18 @@ This project implements **Unigram and Bigram Language Models**, along with their
 
 ### 2. Language Models Implemented
 
-#### **Unigram Model**
-\[
-P(w) = \frac{\text{count}(w)}{N}
-\]  
-Counts the probability of each word independently.
+##Unigram Probability:
+P(w) = count(w) / N
 
-#### **Smoothed Unigram Model (Laplace Smoothing)**
-\[
-P(w) = \frac{\text{count}(w) + 1}{N + V}
-\]  
-- \(N\) = total number of word tokens in the corpus  
-- \(V\) = vocabulary size  
-- Ensures unseen words get non-zero probability.  
+##Smoothed Unigram (Laplace):
+P(w) = (count(w) + 1) / (N + V)
 
-#### **Bigram Model**
-\[
-P(w_i | w_{i-1}) = \frac{\text{count}(w_{i-1}, w_i)}{\text{count}(w_{i-1})}
-\]  
-Counts probabilities of word pairs (conditional on previous word).
+##Bigram Probability:
+P(w_i | w_{i-1}) = count(w_{i-1}, w_i) / count(w_{i-1})
 
-#### **Smoothed Bigram Model (Linear Interpolation)**
-\[
-P(w_i | w_{i-1}) = \lambda_1 \cdot P_{bigram}(w_i | w_{i-1}) + \lambda_2 \cdot P_{unigram}(w_i)
-\]  
-- \(\lambda_1 + \lambda_2 = 1\), typically \(\lambda_1 = \lambda_2 = 0.5\)  
-- Smooths bigram probabilities using unigram fallback.  
+##Smoothed Bigram (Interpolation):
+P(w_i | w_{i-1}) = λ1 * P_bigram(w_i | w_{i-1}) + λ2 * P_unigram(w_i)
+
 
 ### 3. Sentence Generation
 - Generates sentences based on model probabilities.
