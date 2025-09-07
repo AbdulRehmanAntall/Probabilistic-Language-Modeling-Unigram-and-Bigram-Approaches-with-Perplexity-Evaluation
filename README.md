@@ -25,16 +25,16 @@ This project implements **Unigram and Bigram Language Models**, along with their
 
 ### 2. Language Models Implemented
 
-##Unigram Probability:
+1) Unigram Probability:
 P(w) = count(w) / N
 
-##Smoothed Unigram (Laplace):
+2) Smoothed Unigram (Laplace):
 P(w) = (count(w) + 1) / (N + V)
 
-##Bigram Probability:
+3) Bigram Probability:
 P(w_i | w_{i-1}) = count(w_{i-1}, w_i) / count(w_{i-1})
 
-##Smoothed Bigram (Interpolation):
+4) Smoothed Bigram (Interpolation):
 P(w_i | w_{i-1}) = λ1 * P_bigram(w_i | w_{i-1}) + λ2 * P_unigram(w_i)
 
 
