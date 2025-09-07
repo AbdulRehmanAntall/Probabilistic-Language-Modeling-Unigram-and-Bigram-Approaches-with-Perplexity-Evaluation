@@ -25,29 +25,31 @@ This project implements **Unigram and Bigram Language Models**, along with their
 
 ### 2. Language Models Implemented
 
-1) Unigram Probability:
+1) **Unigram Probability**  
 P(w) = count(w) / N
+- N = total number of words in corpus
 
-2) Smoothed Unigram (Laplace):
+2) **Smoothed Unigram (Laplace Smoothing)**  
 P(w) = (count(w) + 1) / (N + V)
+- V = vocabulary size  
+- Ensures unseen words get non-zero probability
 
-3) Bigram Probability:
+3) **Bigram Probability**  
 P(w_i | w_{i-1}) = count(w_{i-1}, w_i) / count(w_{i-1})
 
-4) Smoothed Bigram (Interpolation):
+4) **Smoothed Bigram (Linear Interpolation)**  
 P(w_i | w_{i-1}) = λ1 * P_bigram(w_i | w_{i-1}) + λ2 * P_unigram(w_i)
-
+- λ1 + λ2 = 1, typically λ1 = λ2 = 0.5  
+- Smooths bigram probabilities using unigram fallback
 
 ### 3. Sentence Generation
 - Generates sentences based on model probabilities.
 - Saves generated sentences with their probabilities to files.
 
 ### 4. Perplexity Calculation
-\[
-PP(W) = \exp\Big(- \frac{1}{N} \sum_{i=1}^{N} \log P(w_i | w_{i-1})\Big)
-\]  
-- Evaluates model performance on positive and negative test corpora.
-- Lower perplexity → better predictive performance.
+PP(W) = exp( - (1/N) * sum_{i=1}^N log P(w_i | w_{i-1}) )
+- Evaluates model performance on positive and negative test corpora  
+- Lower perplexity → better predictive performance
 
 </details>
 
