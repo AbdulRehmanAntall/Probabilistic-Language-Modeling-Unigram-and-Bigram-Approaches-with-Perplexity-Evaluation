@@ -1,6 +1,6 @@
 # Probabilistic Language Models
 
-This project implements **Unigram and Bigram Language Models**, along with their smoothed versions (Laplace smoothing for unigram, linear interpolation for bigram), to analyze and generate sentences, and evaluate perplexity on test corpora.
+This project implements **Unigram and Bigram Language Models**, along with their smoothed versions (Laplace smoothing for unigram, linear interpolation for bigram), to analyze text, generate sentences, and evaluate model performance using perplexity.
 
 ---
 
@@ -8,7 +8,7 @@ This project implements **Unigram and Bigram Language Models**, along with their
 
 - **Training Corpus**: 30,000 sentences  
 - **Positive Test Corpus**: 1,000 sentences  
-- **Negative Test Corpus**: 1000 sentences  
+- **Negative Test Corpus**: 1,000 sentences  
 - **Vocabulary Size**: 19,467 unique words  
 
 ---
@@ -18,28 +18,50 @@ This project implements **Unigram and Bigram Language Models**, along with their
 <details>
 <summary>Click to expand</summary>
 
-1. **Data Preprocessing**:
-   - Rare words (frequency < 2) replaced with `UNK`.
-   - Added `<s>` (start) and `</s>` (end) tokens for all sentences.
-   - Preprocessing for test data ensures unknown words are replaced with `UNK`.
+### 1. Data Preprocessing
+- Rare words (frequency < 2) replaced with `UNK`.
+- Added `<s>` (start) and `</s>` (end) tokens to all sentences.
+- Test data preprocessing ensures unknown words are replaced with `UNK`.
 
-2. **Language Models Implemented**:
-   - **Unigram Model**: Counts individual word probabilities.
-   - **Smoothed Unigram Model**: Uses Laplace (add-1) smoothing.
-   - **Bigram Model**: Counts word pairs (previous word → current word).
-   - **Smoothed Bigram Model**: Uses linear interpolation smoothing:
-     \[
-     P(w_i|w_{i-1}) = \lambda_1 \cdot P_{bigram}(w_i|w_{i-1}) + \lambda_2 \cdot P_{unigram}(w_i)
-     \]
-     where \(\lambda_1 = \lambda_2 = 0.5\).
+### 2. Language Models Implemented
 
-3. **Sentence Generation**:
-   - Generates sentences using probability distributions.
-   - Writes generated sentences along with probabilities to files.
+#### **Unigram Model**
+\[
+P(w) = \frac{\text{count}(w)}{N}
+\]  
+Counts the probability of each word independently.
 
-4. **Perplexity Calculation**:
-   - Computes perplexity on positive and negative test corpora for all models.
-   - Helps evaluate model performance.
+#### **Smoothed Unigram Model (Laplace Smoothing)**
+\[
+P(w) = \frac{\text{count}(w) + 1}{N + V}
+\]  
+- \(N\) = total number of word tokens in the corpus  
+- \(V\) = vocabulary size  
+- Ensures unseen words get non-zero probability.  
+
+#### **Bigram Model**
+\[
+P(w_i | w_{i-1}) = \frac{\text{count}(w_{i-1}, w_i)}{\text{count}(w_{i-1})}
+\]  
+Counts probabilities of word pairs (conditional on previous word).
+
+#### **Smoothed Bigram Model (Linear Interpolation)**
+\[
+P(w_i | w_{i-1}) = \lambda_1 \cdot P_{bigram}(w_i | w_{i-1}) + \lambda_2 \cdot P_{unigram}(w_i)
+\]  
+- \(\lambda_1 + \lambda_2 = 1\), typically \(\lambda_1 = \lambda_2 = 0.5\)  
+- Smooths bigram probabilities using unigram fallback.  
+
+### 3. Sentence Generation
+- Generates sentences based on model probabilities.
+- Saves generated sentences with their probabilities to files.
+
+### 4. Perplexity Calculation
+\[
+PP(W) = \exp\Big(- \frac{1}{N} \sum_{i=1}^{N} \log P(w_i | w_{i-1})\Big)
+\]  
+- Evaluates model performance on positive and negative test corpora.
+- Lower perplexity → better predictive performance.
 
 </details>
 
@@ -50,9 +72,10 @@ This project implements **Unigram and Bigram Language Models**, along with their
 <details>
 <summary>Click to expand</summary>
 
-- `readFileToCorpus(f)` → Reads file into list of sentences (tokenized).  
-- `preprocess(corpus)` → Preprocess training data (replace rare words, add `<s>` and `</s>`).  
-- `preprocessTest(vocab, corpus)` → Preprocess test data using training vocabulary.  
+### Data Handling
+- `readFileToCorpus(f)` → Reads file into a tokenized list of sentences.  
+- `preprocess(corpus)` → Replaces rare words, adds `<s>` and `</s>` tokens.  
+- `preprocessTest(vocab, corpus)` → Ensures test corpus words match training vocabulary.
 
 ### Language Models
 - **Parent Class**: `LanguageModel`  
@@ -62,16 +85,15 @@ This project implements **Unigram and Bigram Language Models**, along with their
 - **Smoothed Bigram**: `SmoothedBigramModelKN`  
 
 ### Distributions
-- `UnigramDist` → Maintains unigram counts, probability, Laplace probability, and sampling.  
+- `UnigramDist` → Maintains word counts, probabilities, Laplace smoothing, and sampling.  
 - `BigramDist` → Maintains bigram counts, conditional probabilities, and sampling.
 
 ### Main Routine
-1. Reads training and test corpora.
-2. Preprocesses training and test corpora.
-3. Generates vocabulary.
-4. Trains language models.
-5. Generates 20 sentences per model and stores in files.
-6. Computes perplexity for POS and NEG test corpora.
+1. Load training and test corpora.  
+2. Preprocess corpora and generate vocabulary.  
+3. Train all four language models.  
+4. Generate 20 sentences per model and save to files.  
+5. Compute perplexity for positive and negative test corpora.
 
 </details>
 
@@ -79,9 +101,27 @@ This project implements **Unigram and Bigram Language Models**, along with their
 
 ## 📄 Output Files
 
+<details>
+<summary>Click to expand</summary>
+
 - `unigram.txt` → Sentences generated by Unigram Model  
 - `unigram_smoothed.txt` → Sentences generated by Smoothed Unigram Model  
 - `bigram.txt` → Sentences generated by Bigram Model  
 - `bigram_smoothed.txt` → Sentences generated by Smoothed Bigram Model  
 
+</details>
+
 ---
+
+## 🔗 Notes
+
+<details>
+<summary>Click to expand</summary>
+
+- Formulas are implemented correctly in the respective model classes:
+  - **Laplace smoothing** for unigrams  
+  - **Linear interpolation** for bigrams  
+- Perplexity computation ensures probabilities are never zero for smoothed models.  
+- Generated sentences provide a qualitative check of model behavior.
+
+</details>
